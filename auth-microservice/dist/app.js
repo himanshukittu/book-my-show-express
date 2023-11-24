@@ -9,13 +9,15 @@ const path_1 = __importDefault(require("path"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const morgan_1 = __importDefault(require("morgan"));
 const utility_1 = require("./shared/utility");
+const Models_1 = __importDefault(require("./Models"));
 var app = (0, express_1.default)();
 app.use((0, morgan_1.default)('dev'));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
-app.use('/login/', require('./routes/index'));
+app.use('/auth', require('./routes/index'));
+Models_1.default.sync().then().catch();
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next((0, http_errors_1.default)(404));
@@ -30,3 +32,4 @@ app.use(function (err, req, res, next) {
     res.json((0, utility_1.getFormattedResponse)({ errorMessage: err === null || err === void 0 ? void 0 : err.message }));
 });
 module.exports = app;
+//# sourceMappingURL=app.js.map
